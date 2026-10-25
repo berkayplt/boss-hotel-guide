@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>İstanbul Rehberi | Boss Hotel Sultanahmet</title>
+  <meta name="description" content="Boss Hotel Sultanahmet misafirleri için İstanbul gezi rehberi: yakındaki tarihi mekânlar, hikâyeleri ve yol tarifleri.">
+  <meta name="theme-color" content="#F7F7F4">
+  <link rel="icon" href="assets/logo-mark.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Kiril ve Arap harfli fontlar yalnızca o dil seçildiğinde indirilir -->
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Marcellus&family=Forum&family=Golos+Text:wght@400;500;600&family=Amiri&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="pending">
+  <div class="app" id="app">
+    <header class="hero">
+      <label class="lang">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.4 3.4 5.2 3.4 8.5s-1.1 6.1-3.4 8.5c-2.3-2.4-3.4-5.2-3.4-8.5s1.1-6.1 3.4-8.5z"/></svg>
+        <span id="lang-code" aria-hidden="true"></span>
+        <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+        <select id="lang-select"></select>
+      </label>
+      <img class="hero-logo" src="assets/logo-full.png" alt="Boss Hotel Sultanahmet" width="640" height="442">
+      <h1 class="hero-title" data-i18n="title"></h1>
+      <p class="hero-text" data-i18n="intro"></p>
+    </header>
+
+    <main>
+      <ol class="route" id="route" aria-label=""></ol>
+    </main>
+
+    <footer class="foot">
+      <div class="foot-home">
+        <p class="foot-title" data-i18n="homeTitle"></p>
+        <p class="foot-addr" id="hotel-addr"></p>
+        <button type="button" class="btn btn-quiet" id="home-btn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg>
+          <span data-i18n="homeBtn"></span>
+        </button>
+      </div>
+      <p class="foot-note" data-i18n="note"></p>
+      <details class="credits">
+        <summary data-i18n="credits"></summary>
+        <ul id="credit-list"></ul>
+      </details>
+    </footer>
+  </div>
+
+  <!-- Mekân detayı -->
+  <section class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-name" hidden>
+    <div class="detail-scroll" id="detail-scroll">
+      <figure class="d-photo">
+        <img id="d-img" alt="">
+        <figcaption id="d-credit"></figcaption>
+      </figure>
+      <button type="button" class="back" id="back-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        <span class="sr" data-i18n="back"></span>
+      </button>
+      <article class="d-body">
+        <h2 class="d-name" id="d-name"></h2>
+        <p class="d-tag" id="d-tag"></p>
+        <dl class="facts" id="d-facts"></dl>
+        <p class="d-lead" id="d-lead"></p>
+        <div class="d-text" id="d-text"></div>
+        <section class="tips">
+          <h3 data-i18n="tips"></h3>
+          <ul id="d-tips"></ul>
+        </section>
+      </article>
+    </div>
+    <div class="d-action">
+      <button type="button" class="btn btn-go" id="go-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.3"/></svg>
+        <span data-i18n="go"></span>
+      </button>
+      <p class="d-app" id="d-app" hidden></p>
+    </div>
+  </section>
+
+  <!-- Harita uygulaması seçimi -->
+  <div class="picker" id="picker" hidden>
+    <div class="picker-shade" data-close></div>
+    <div class="picker-sheet" role="dialog" aria-modal="true" aria-labelledby="picker-title">
+      <span class="grip" aria-hidden="true"></span>
+      <h2 id="picker-title" data-i18n="pickTitle"></h2>
+      <p class="picker-dest" id="picker-dest"></p>
+      <div class="picker-opts" id="picker-opts"></div>
+      <label class="remember">
+        <input type="checkbox" id="remember">
+        <span data-i18n="remember"></span>
+      </label>
+      <button type="button" class="picker-cancel" data-close data-i18n="cancel"></button>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
