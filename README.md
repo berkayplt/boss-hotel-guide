@@ -2,6 +2,8 @@
 
 Otel misafirleri için yedi dilde İstanbul gezi rehberi. HTML, CSS ve JavaScript ile çalışır; derleme, sunucu veya veritabanı gerektirmez.
 
+Yayın adresi: https://guidebosssultanahmet.site/
+
 ## Yerelde açma
 
 Proje klasöründe `python3 -m http.server 8000` çalıştırın ve `http://localhost:8000` adresini açın.
@@ -20,7 +22,19 @@ Siteyi güncellemek için değişiklikleri `main` dalına gönderin. Pages dağ�
 
 ## Domain ve QR
 
-Domain seçildikten sonra GitHub Pages ayarlarından özel domaini ekleyin, GitHub'ın gösterdiği DNS kayıtlarını domain sağlayıcısında ayarlayın ve sertifika hazır olduğunda **Enforce HTTPS** seçeneğini açın. Domain belirlenmeden `CNAME` dosyası eklemeyin.
+Özel domain `guidebosssultanahmet.site`, kökteki `CNAME` dosyasında tanımlıdır. GitHub Pages ayarlarındaki domain de aynı olmalıdır. Sertifika hazır olduğunda **Enforce HTTPS** seçeneği açık olmalıdır.
+
+Namecheap BasicDNS → Advanced DNS → Host Records kayıtları:
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A Record | @ | 185.199.108.153 |
+| A Record | @ | 185.199.109.153 |
+| A Record | @ | 185.199.110.153 |
+| A Record | @ | 185.199.111.153 |
+| CNAME Record | www | berkayplt.github.io |
+
+TTL için varsayılan değer kullanılabilir. `www` CNAME değerine protokol veya depo yolu eklemeyin. Kök domain ve `www` için park sayfası veya URL yönlendirmesi kaydı olmamalıdır.
 
 Basılacak QR kodu kalıcı özel domain adresine yönlendirin. Böylece hosting değişse bile QR kodları aynı kalabilir.
 
