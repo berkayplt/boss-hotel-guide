@@ -28,10 +28,7 @@ Namecheap BasicDNS → Advanced DNS → Host Records kayıtları:
 
 | Type | Host | Value |
 | --- | --- | --- |
-| A Record | @ | 185.199.108.153 |
-| A Record | @ | 185.199.109.153 |
-| A Record | @ | 185.199.110.153 |
-| A Record | @ | 185.199.111.153 |
+| ALIAS Record | @ | berkayplt.github.io |
 | CNAME Record | www | berkayplt.github.io |
 
 TTL için varsayılan değer kullanılabilir. `www` CNAME değerine protokol veya depo yolu eklemeyin. Kök domain ve `www` için park sayfası veya URL yönlendirmesi kaydı olmamalıdır.
