@@ -290,6 +290,15 @@ body.pending .app { visibility: hidden; }
   font-size: 14.5px;
 }
 
+.travel-time-note {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.d-travel-note { margin: -10px 0 24px; }
+
 /* Duraklar arasındaki ince çizgi: rayı kesmeden metin sütunundan başlar */
 .stop + .stop::after {
   content: "";

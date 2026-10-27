@@ -24,6 +24,7 @@
       walkSub: "Hepsi otelden 20 dakikadan kısa.",
       rideTitle: "Tramvay, vapur ya da taksiyle",
       rideSub: "Yarım gününüzü ayırmaya değer.",
+      travelTimeNote: "Yolculuk süreleri yaklaşık olup trafik ve ulaşım koşullarına göre değişebilir.",
       min: "dk",
       built: "Yapım",
       distance: "Otelden",
@@ -59,6 +60,7 @@
       walkSub: "All under 20 minutes from the hotel.",
       rideTitle: "By tram, ferry or taxi",
       rideSub: "Worth setting aside half a day.",
+      travelTimeNote: "Travel times are approximate and may vary depending on traffic and transport conditions.",
       min: "min",
       built: "Built",
       distance: "From hotel",
@@ -137,7 +139,7 @@
     if (loading[code]) return loading[code].push(done);
     loading[code] = [done];
     var s = document.createElement("script");
-    s.src = "i18n/" + code + ".js";
+    s.src = "i18n/" + code + ".js?v=20261027-times";
     s.onload = s.onerror = function () {
       var ok = !!STR[code];
       loading[code].forEach(function (fn) { fn(ok); });
@@ -213,7 +215,9 @@
     return '<li class="group group-' + kind + '" style="--i:' + i + '">' +
       '<span class="group-node" aria-hidden="true"></span>' +
       '<div class="group-text"><h2 class="group-title">' + t(kind + "Title") + "</h2>" +
-      '<p class="group-sub">' + t(kind + "Sub") + "</p></div></li>";
+      '<p class="group-sub">' + t(kind + "Sub") + "</p>" +
+      (kind === "ride" ? '<p class="travel-time-note">' + esc(t("travelTimeNote")) + "</p>" : "") +
+      "</div></li>";
   }
 
   function renderRoute() {
@@ -297,6 +301,7 @@
       how.remove();
     }
 
+    $("d-travel-note").hidden = p.group !== "ride";
     $("d-lead").textContent = c.lead;
     $("d-text").innerHTML = c.body.map(function (para) { return "<p>" + esc(para) + "</p>"; }).join("");
     $("d-tips").innerHTML = c.tips.map(function (tip) { return "<li>" + esc(tip) + "</li>"; }).join("");

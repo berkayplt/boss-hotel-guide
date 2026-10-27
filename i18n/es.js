@@ -11,6 +11,7 @@ window.GUIDE_LANG({
     walkSub: "Todo a menos de 20 minutos del hotel.",
     rideTitle: "En tranvía, ferry o taxi",
     rideSub: "Vale la pena dedicarles medio día.",
+    travelTimeNote: "Los tiempos de viaje son aproximados y pueden variar según el tráfico y las condiciones del transporte.",
     min: "min",
     built: "Construido",
     distance: "Desde el hotel",

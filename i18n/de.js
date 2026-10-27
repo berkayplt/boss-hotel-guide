@@ -11,6 +11,7 @@ window.GUIDE_LANG({
     walkSub: "Alles unter 20 Minuten vom Hotel.",
     rideTitle: "Mit Tram, Fähre oder Taxi",
     rideSub: "Einen halben Tag wert.",
+    travelTimeNote: "Die Fahrzeiten sind Richtwerte und können je nach Verkehrslage und Betriebsbedingungen variieren.",
     min: "Min.",
     built: "Erbaut",
     distance: "Vom Hotel",
