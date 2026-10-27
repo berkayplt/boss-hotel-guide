@@ -83,7 +83,7 @@ button { font: inherit; color: inherit; }
 
 .hero {
   position: relative;
-  padding: 52px 0 36px;
+  padding: 84px 0 36px;
   text-align: center;
 }
 
@@ -112,25 +112,45 @@ button { font: inherit; color: inherit; }
 
 .lang {
   position: absolute;
-  top: 12px;
-  inset-inline-end: 0;
+  top: 14px;
+  right: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
-  height: 38px;
-  padding: 0 10px 0 12px;
-  border: 1px solid var(--hair);
-  border-radius: 999px;
+  gap: 11px;
+  min-width: 158px;
+  min-height: 54px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gold);
+  border-radius: 12px;
   background: var(--surface);
   color: var(--ink);
-  font: 600 13px/1 "Hanken Grotesk", system-ui, sans-serif;
-  letter-spacing: 0.04em;
+  box-shadow: 0 3px 12px rgb(26 34 56 / 0.07);
+  direction: ltr;
   cursor: pointer;
 }
 
+.lang-copy {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+  text-align: start;
+}
+
+.lang-label {
+  color: var(--ink-soft);
+  font: 500 12px/1.2 var(--text);
+}
+
+.lang-name {
+  font: 600 16px/1.2 var(--text);
+  white-space: nowrap;
+}
+
 .lang svg {
-  width: 17px;
-  height: 17px;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--gold-ink);
   fill: none;
   stroke: currentColor;
   stroke-width: 1.6;
@@ -138,13 +158,20 @@ button { font: inherit; color: inherit; }
   stroke-linejoin: round;
 }
 
-.lang .caret { width: 14px; height: 14px; color: var(--ink-soft); }
+.lang .caret { width: 16px; height: 16px; color: var(--gold-ink); }
+
+@media (hover: hover) {
+  .lang:hover { background: #FCF8EF; border-color: var(--gold-ink); }
+}
+
+.lang:active { background: #F6F0E3; }
 
 /* Yerel seçim listesi görünmez ama dokunulabilir: telefonda kendi seçicisini açar */
 .lang select {
   position: absolute;
   inset: 0;
   width: 100%;
+  height: 100%;
   opacity: 0;
   font-size: 16px;
   cursor: pointer;
@@ -843,7 +870,7 @@ body.pending .app { visibility: hidden; }
 
 @media (min-width: 700px) {
   :root { --side: 24px; }
-  .hero { padding-top: 72px; }
+  .hero { padding-top: 88px; }
   .stop-link { grid-template-columns: var(--col-time) var(--col-rail) 1fr 96px; }
   .stop-thumb { width: 96px; height: 96px; }
 }

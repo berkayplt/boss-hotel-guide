@@ -110,22 +110,6 @@
     } catch (e) { /* özel sekme vb. */ }
   }
 
-  function supported(code) {
-    return LANGS.some(function (l) { return l.code === code; });
-  }
-
-  // Öncelik: adresteki ?lang=xx, sonra kullanıcının elle yaptığı seçim, sonra cihazın ana dili.
-  // Cihazın ana dili desteklenmiyorsa İngilizce açılır.
-  function detectLang() {
-    var fromUrl = (location.search.match(/[?&]lang=([a-z]{2})/) || [])[1];
-    if (fromUrl && supported(fromUrl)) return fromUrl;
-    var stored = load("guide.lang");
-    if (stored && supported(stored)) return stored;
-    var primary = (navigator.languages && navigator.languages[0]) || navigator.language || "";
-    var code = String(primary).toLowerCase().split("-")[0];
-    return supported(code) ? code : "en";
-  }
-
   var lang = "en";
   var mapApp = load("guide.mapApp");
 
@@ -162,11 +146,14 @@
     document.head.appendChild(s);
   }
 
-  function setLang(code, persist) {
+  var langRequest = 0;
+
+  function setLang(code) {
+    var request = ++langRequest;
     ensureLang(code, function (ok) {
+      if (request !== langRequest) return;
       if (!ok) code = "en";
       lang = code;
-      if (persist) save("guide.lang", code);
       renderStatic();
       renderRoute();
       if (current) renderDetail(current);
@@ -258,7 +245,8 @@
     var select = $("lang-select");
     select.value = lang;
     select.setAttribute("aria-label", t("langLabel"));
-    $("lang-code").textContent = lang.toUpperCase();
+    $("lang-name").textContent = meta.label;
+    $("lang-name").lang = meta.code;
     $("hotel-addr").textContent = HOTEL.address;
 
     $("credit-list").innerHTML = PLACES.map(function (p) {
@@ -421,7 +409,7 @@
   // ---------- Olaylar ----------
 
   $("lang-select").addEventListener("change", function (e) {
-    setLang(e.target.value, true);
+    setLang(e.target.value);
   });
 
   $("route").addEventListener("click", function (e) {
@@ -480,10 +468,9 @@
   // ---------- Başlat ----------
 
   renderLangOptions();
-  ensureLang(detectLang(), function (ok) {
-    setLang(ok ? detectLang() : "en", false);
-    $("route").classList.add("drawing");
-    setTimeout(function () { $("route").classList.remove("drawing"); }, 2600);
-    syncWithHash();
-  });
+  // Her yeni sayfa açılışı İngilizcedir; diğer diller yalnızca seçiciden açılır.
+  setLang("en");
+  $("route").classList.add("drawing");
+  setTimeout(function () { $("route").classList.remove("drawing"); }, 2600);
+  syncWithHash();
 })();

@@ -20,6 +20,10 @@ seçip kaydedin. `.nojekyll`, dosyaların Jekyll işlemi olmadan sunulmasını s
 
 Siteyi güncellemek için değişiklikleri `main` dalına gönderin. Pages dağıtımı tamamlandığında aynı adreste güncellenir.
 
+## Dil davranışı
+
+Her sayfa açılışı İngilizcedir. Cihaz dili, önceki dil seçimi ve `?lang=` parametresi açılış dilini değiştirmez. Misafirler sağ üstteki dil seçiciden yedi dil arasında geçiş yapabilir; sayfa yeniden açıldığında İngilizceye döner.
+
 ## Domain ve QR
 
 Özel domain `guidebosssultanahmet.site`, kökteki `CNAME` dosyasında tanımlıdır. GitHub Pages ayarlarındaki domain de aynı olmalıdır. Sertifika hazır olduğunda **Enforce HTTPS** seçeneği açık olmalıdır.
