@@ -24,6 +24,12 @@
       walkSub: "Hepsi otelden 20 dakikadan kısa.",
       rideTitle: "Tramvay, vapur ya da taksiyle",
       rideSub: "Yarım gününüzü ayırmaya değer.",
+      ferryTitle: "İskeleler ve vapurlar",
+      ferrySub: "Boğaz turu, Adalar ve Kadıköy için.",
+      shopTitle: "Alışveriş merkezleri",
+      shopSub: "Tarihi çarşılardan sonra modern İstanbul.",
+      airportTitle: "Havalimanları",
+      airportSub: "Gidiş ve dönüş için ulaşım seçenekleri.",
       travelTimeNote: "Yolculuk süreleri yaklaşık olup trafik ve ulaşım koşullarına göre değişebilir.",
       min: "dk",
       built: "Yapım",
@@ -60,6 +66,12 @@
       walkSub: "All under 20 minutes from the hotel.",
       rideTitle: "By tram, ferry or taxi",
       rideSub: "Worth setting aside half a day.",
+      ferryTitle: "Piers & ferries",
+      ferrySub: "For Bosphorus cruises, the Princes' Islands and Kadıköy.",
+      shopTitle: "Shopping malls",
+      shopSub: "Modern Istanbul, after the old bazaars.",
+      airportTitle: "Airports",
+      airportSub: "How to get there and back.",
       travelTimeNote: "Travel times are approximate and may vary depending on traffic and transport conditions.",
       min: "min",
       built: "Built",
@@ -128,7 +140,7 @@
       if (!c) return;
       p[code] = c;
       if (p.built) p.built[code] = c.built || p.built.en;
-      p.allow[code] = c.allow || p.allow.en;
+      if (p.allow) p.allow[code] = c.allow || p.allow.en;
     });
   };
 
@@ -139,7 +151,7 @@
     if (loading[code]) return loading[code].push(done);
     loading[code] = [done];
     var s = document.createElement("script");
-    s.src = "i18n/" + code + ".js?v=20261027-times";
+    s.src = "i18n/" + code + ".js?v=20261028-places";
     s.onload = s.onerror = function () {
       var ok = !!STR[code];
       loading[code].forEach(function (fn) { fn(ok); });
@@ -177,15 +189,23 @@
     return Math.max(2, Math.round((meters * 1.25) / 80));
   }
 
+  // Yürüyerek gidilen yer mi? walk alanı verilmemişse "walk" bölümündekiler yürüyüş sayılır.
+  function isWalk(p) { return p.walk != null ? p.walk : p.group === "walk"; }
+  function travelMin(p) { return isWalk(p) ? p.minutes : p.rideMin; }
+
   PLACES.forEach(function (p) {
-    if (p.group === "walk") p.minutes = walkMinutes(p);
+    if (isWalk(p)) p.minutes = walkMinutes(p);
   });
 
-  // Mesafeye göre sıralanır; sortLast işaretli yerler grubun sonuna alınır.
-  var walkPlaces = PLACES.filter(function (p) { return p.group === "walk"; })
-    .sort(function (a, b) { return (!!a.sortLast - !!b.sortLast) || (a.minutes - b.minutes); });
-  var ridePlaces = PLACES.filter(function (p) { return p.group === "ride"; })
-    .sort(function (a, b) { return a.rideMin - b.rideMin; });
+  // Listedeki bölümler, gösterim sırasıyla. Her bölüm kendi içinde süreye göre sıralanır;
+  // sortLast işaretli yerler bölümün sonuna alınır.
+  var SECTIONS = ["walk", "ride", "ferry", "shop", "airport"].map(function (kind) {
+    return {
+      kind: kind,
+      places: PLACES.filter(function (p) { return p.group === kind; })
+        .sort(function (a, b) { return (!!a.sortLast - !!b.sortLast) || (travelMin(a) - travelMin(b)); }),
+    };
+  }).filter(function (sec) { return sec.places.length; });
 
   // ---------- Liste ----------
 
@@ -197,10 +217,10 @@
 
   function stopHTML(p, i, isLast) {
     var c = p[lang];
-    var time = p.group === "walk"
+    var time = isWalk(p)
       ? "<b>" + p.minutes + "</b><small>" + t("min") + "</small>"
       : "<b>" + p.rideMin + "</b><small>" + esc(c.mode) + "</small>";
-    var cls = "stop" + (p.group === "ride" ? " ride" : "") + (isLast ? " last" : "");
+    var cls = "stop" + (isWalk(p) ? "" : " ride") + (isLast ? " last" : "");
     return '<li class="' + cls + '" style="--i:' + i + '">' +
       '<a class="stop-link" href="#' + p.id + '" data-id="' + p.id + '">' +
         '<span class="stop-time">' + time + "</span>" +
@@ -211,8 +231,9 @@
       "</a></li>";
   }
 
-  function groupHTML(kind, i) {
-    return '<li class="group group-' + kind + '" style="--i:' + i + '">' +
+  // Bölüm başlığının çizgisi, altındaki ilk yer yürüyüş değilse kesik çizilir.
+  function groupHTML(kind, i, dashed) {
+    return '<li class="group group-' + kind + (dashed ? " dashed" : "") + '" style="--i:' + i + '">' +
       '<span class="group-node" aria-hidden="true"></span>' +
       '<div class="group-text"><h2 class="group-title">' + t(kind + "Title") + "</h2>" +
       '<p class="group-sub">' + t(kind + "Sub") + "</p>" +
@@ -227,10 +248,13 @@
       '<span class="origin-text"><span class="origin-name">' + esc(HOTEL.name) + "</span>" +
       '<span class="origin-sub">' + t("originSub") + "</span></span></li>";
 
-    html += groupHTML("walk", ++i);
-    walkPlaces.forEach(function (p) { html += stopHTML(p, ++i, false); });
-    html += groupHTML("ride", ++i);
-    ridePlaces.forEach(function (p, k) { html += stopHTML(p, ++i, k === ridePlaces.length - 1); });
+    SECTIONS.forEach(function (sec, si) {
+      html += groupHTML(sec.kind, ++i, !isWalk(sec.places[0]));
+      sec.places.forEach(function (p, k) {
+        var isLast = si === SECTIONS.length - 1 && k === sec.places.length - 1;
+        html += stopHTML(p, ++i, isLast);
+      });
+    });
 
     var route = $("route");
     route.innerHTML = html;
@@ -281,10 +305,10 @@
 
     var facts = [];
     if (p.built) facts.push([t("built"), p.built[lang]]);
-    facts.push([t("distance"), p.group === "walk" ? t("walkFact")(p.minutes) : t("rideFact")(p.rideMin)]);
-    facts.push([t("allow"), p.allow[lang]]);
+    facts.push([t("distance"), isWalk(p) ? t("walkFact")(p.minutes) : t("rideFact")(p.rideMin)]);
+    if (p.allow) facts.push([t("allow"), p.allow[lang]]);
     var dl = $("d-facts");
-    dl.className = "facts" + (facts.length === 2 ? " two" : "");
+    dl.className = "facts" + (facts.length === 2 ? " two" : facts.length === 1 ? " one" : "");
     dl.innerHTML = facts.map(function (f) {
       return "<div><dt>" + esc(f[0]) + "</dt><dd>" + esc(f[1]) + "</dd></div>";
     }).join("");
@@ -301,9 +325,13 @@
       how.remove();
     }
 
-    $("d-travel-note").hidden = p.group !== "ride";
+    $("d-travel-note").hidden = isWalk(p);
     $("d-lead").textContent = c.lead;
-    $("d-text").innerHTML = c.body.map(function (para) { return "<p>" + esc(para) + "</p>"; }).join("");
+    // Havalimanı sayfalarında her paragraf bir ulaşım seçeneğidir; "Metro:" gibi başlığı kalın gösterilir.
+    $("d-text").innerHTML = c.body.map(function (para) {
+      var m = p.group === "airport" && para.match(/^([^:]{2,40}?)\s?:\s([\s\S]*)$/);
+      return m ? "<p><strong>" + esc(m[1]) + "</strong> " + esc(m[2]) + "</p>" : "<p>" + esc(para) + "</p>";
+    }).join("");
     $("d-tips").innerHTML = c.tips.map(function (tip) { return "<li>" + esc(tip) + "</li>"; }).join("");
     renderAppLine();
   }
@@ -360,13 +388,15 @@
 
   var pending = null;
 
+  // Yürüyüş, toplu taşıma ya da (havalimanı gibi taksiyle gidilen yerler için) araç tarifi.
   function directionsURL(app, target) {
-    var walking = target.walking;
+    var mode = target.walking ? "walk" : target.drive ? "drive" : "transit";
     if (app === "apple") {
-      return "https://maps.apple.com/?daddr=" + target.lat + "," + target.lng + "&dirflg=" + (walking ? "w" : "r");
+      return "https://maps.apple.com/?daddr=" + target.lat + "," + target.lng +
+        "&dirflg=" + { walk: "w", drive: "d", transit: "r" }[mode];
     }
     return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(target.query) +
-      "&travelmode=" + (walking ? "walking" : "transit");
+      "&travelmode=" + { walk: "walking", drive: "driving", transit: "transit" }[mode];
   }
 
   function launch(app, target) {
@@ -385,7 +415,7 @@
   }
 
   function placeTarget(p) {
-    return { name: p[lang].name, lat: p.lat, lng: p.lng, query: p.mapQuery, walking: p.group === "walk" };
+    return { name: p[lang].name, lat: p.lat, lng: p.lng, query: p.mapQuery, walking: isWalk(p), drive: !!p.drive };
   }
 
   function hotelTarget() {

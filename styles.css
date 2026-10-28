@@ -213,7 +213,7 @@ body.pending .app { visibility: hidden; }
 }
 
 .route > li.ride::before,
-.route > li.group-ride::before {
+.route > li.group.dashed::before {
   background: repeating-linear-gradient(to bottom, var(--gold) 0 6px, transparent 6px 12px);
 }
 
@@ -622,6 +622,7 @@ body.pending .app { visibility: hidden; }
 }
 
 .facts.two { grid-template-columns: repeat(2, 1fr); }
+.facts.one { grid-template-columns: 1fr; }
 
 .facts div + div {
   padding-inline-start: 14px;
