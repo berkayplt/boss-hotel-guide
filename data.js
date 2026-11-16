@@ -9,6 +9,83 @@ window.HOTEL = {
   lat: 41.01188,
   lng: 28.97334,
   mapQuery: "Boss Hotel Sultanahmet, Türkocağı Caddesi 15, Fatih, İstanbul",
+  // Saatler İstanbul saatine göre hesaplanır, misafirin telefonunun saat dilimine göre değil.
+  timeZone: "Europe/Istanbul",
+  // Otel sayfasındaki saat kutuları. Bir kutuyu gizlemek için değerini null yapın.
+  // Kahvaltı saati genel listelemelerden alındı; otel onaylayınca güncelleyin.
+  // Çıkış saati gösterilmez (Berkay kararı, 2026-11-16).
+  hours: {
+    breakfast: { from: "07:00", to: "10:00" },
+    reception: "24h",
+  },
+  // Kahvaltı penceresindeki ayrıntılar: açık büfe, yeri (metinler dil paketlerinde).
+  breakfast: { style: "openBuffet", place: "terrace" },
+  // Kurallar; metinleri dil paketlerinde "rule_<ad>" anahtarında.
+  rules: ["noSmoking", "noPets"],
+  // Google yorum daveti: herkese aynı davet, ödül yok. Boş bırakılırsa kart görünmez.
+  review: "https://maps.app.goo.gl/StiEpAN1Y7DEH7nM6",
+  // Ulaşım sayfasında resepsiyonun ayarladığı hizmetler. Fiyat ve saat yazılmaz.
+  services: { taxi: true, privateTransfer: true, airportTransfer: true },
+  // Otel sayfasındaki Gezi Rehberi kartında sırayla dönen mekânlar.
+  featured: ["ayasofya", "sultanahmet", "suleymaniye", "yerebatan", "misircarsisi"],
+};
+
+// Otele yürüme mesafesindeki toplu taşıma durakları.
+// Konumlar OpenStreetMap'ten (© OpenStreetMap katkıcıları, ODbL); yürüme mesafeleri otelden sokak
+// üzerinden ölçüldü (OSRM). Sefer saati ve ücret yazılmaz, değişirler.
+window.TRANSIT = {
+  // Hatların kısa adı tabelalardaki gibidir; nereye gittiği dil paketlerinde "line_<id>" anahtarındadır.
+  lines: {
+    T1: { label: "T1" },
+    Marmaray: { label: "Marmaray" },
+    M2: { label: "M2" },
+    ferry: { label: null }, // dile göre: "Vapur", "Ferry"... (dil paketinde "ferryBadge")
+  },
+  stops: [
+    {
+      id: "sirkeci-marmaray", lines: ["Marmaray"], walkKm: 0.49,
+      lat: 41.0133917, lng: 28.9758834,
+      name: { en: "Sirkeci", ru: "Сиркеджи", ar: "سيركجي" },
+    },
+    {
+      id: "sultanahmet-t1", lines: ["T1"], walkKm: 0.54,
+      lat: 41.0081001, lng: 28.9755345,
+      name: { en: "Sultanahmet", ru: "Султанахмет", ar: "السلطان أحمد" },
+    },
+    {
+      id: "sirkeci-t1", lines: ["T1"], walkKm: 0.58,
+      lat: 41.0151358, lng: 28.9758646,
+      name: { en: "Sirkeci", ru: "Сиркеджи", ar: "سيركجي" },
+    },
+    {
+      id: "cemberlitas-t1", lines: ["T1"], walkKm: 0.63,
+      lat: 41.0084439, lng: 28.9711417,
+      name: { en: "Çemberlitaş", ru: "Чемберлиташ", ar: "تشمبرليتاش" },
+    },
+    {
+      id: "gulhane-t1", lines: ["T1"], walkKm: 0.79,
+      lat: 41.0121557, lng: 28.9784277,
+      name: { en: "Gülhane", ru: "Гюльхане", ar: "غولهانة" },
+    },
+    {
+      id: "eminonu-t1", lines: ["T1"], walkKm: 0.91,
+      lat: 41.0174742, lng: 28.9732386,
+      name: { en: "Eminönü", ru: "Эминёню", ar: "أمين أونو" },
+    },
+    {
+      id: "eminonu-ferry", lines: ["ferry"], walkKm: 0.98,
+      lat: 41.0175781, lng: 28.9751818,
+      name: {
+        en: "Eminönü Pier", tr: "Eminönü İskelesi", ru: "Пристань Эминёню", ar: "رصيف أمين أونو",
+        de: "Anleger Eminönü", es: "Muelle de Eminönü", fr: "Embarcadère d'Eminönü",
+      },
+    },
+    {
+      id: "vezneciler-m2", lines: ["M2"], walkKm: 1.31,
+      lat: 41.0122525, lng: 28.9597006,
+      name: { en: "Vezneciler", ru: "Везнеджилер", ar: "فزنجيلر" },
+    },
+  ],
 };
 
 window.PLACES = [

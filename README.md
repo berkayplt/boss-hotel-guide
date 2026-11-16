@@ -42,6 +42,10 @@ Basılacak QR kodu kalıcı özel domain adresine yönlendirin. Böylece hosting
 ## İçerik
 
 - `data.js`: Mekânlar, Türkçe ve İngilizce içerik, fotoğraf atıfları.
+- Site üç sekmedir (alttaki menü): **Otel** (karşılama, saat ve hava durumu, kahvaltı saatinde canlı kahvaltı kartı, Gezi Rehberi kartı, saat kutuları, adres, kurallar, Google yorum daveti), **Gezi Rehberi** (`#guide`, mekân listesi) ve **Ulaşım** (`#transport`, duraklar, taksi/transfer, havalimanları). Mekân sayfaları `#<mekân-id>` adresindedir.
+- `data.js` → `HOTEL`: saatler (`hours`, İstanbul saatiyle), kahvaltı ayrıntısı, kurallar, Google yorum bağlantısı (`review`), resepsiyonun ayarladığı hizmetler (`services`) ve rehber kartında dönen mekânlar (`featured`). Bir kutuyu gizlemek için değerini `null` yapın.
+- `data.js` → `TRANSIT`: Yürüme mesafesindeki toplu taşıma durakları (konumlar OpenStreetMap, mesafeler sokak üzerinden ölçülmüş). Hatların açıklaması dil dosyalarında `line_<id>` anahtarındadır.
+- Hava durumu Open-Meteo'dan tarayıcıda çekilir (anahtar gerekmez, 30 dakika saklanır); ulaşılamazsa satır gizlenir.
 - `i18n/`: Diğer beş dilin çevirileri.
 - `app.js`: Dil seçimi, mekân detayları ve harita bağlantıları.
 - `assets/`: Sitede kullanılan görseller.
