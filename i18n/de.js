@@ -3,7 +3,7 @@ window.GUIDE_LANG({
   ui: {
     docTitle: "Istanbul-Guide | Boss Hotel Sultanahmet",
     title: "Istanbul beginnt vor unserer Tür",
-    intro: "Sortiert vom nächstgelegenen Ort nach außen. Tippen Sie auf einen Ort, um seine Geschichte zu lesen und die Route zu öffnen.",
+    intro: "Sortiert nach Beliebtheit, die meistbesuchten Orte zuerst. Tippen Sie auf einen Ort, um seine Geschichte zu lesen und die Route zu öffnen.",
     langLabel: "Sprache",
     routeLabel: "Sehenswürdigkeiten",
     originSub: "Sie sind hier",

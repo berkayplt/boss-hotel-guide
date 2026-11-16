@@ -3,6 +3,29 @@
 // Fotoğraflar Wikimedia Commons'tan alınmıştır; kendi fotoğraflarınızla değiştirmek için
 // assets/img/<id>.jpg dosyasının üzerine yazmanız ve photo alanını güncellemeniz yeterli.
 
+// Gezi Rehberi'nde her bölüm, turistlerin en çok gittiği yerden başlar (Berkay kararı, 2026-11-16).
+// Sırayı değiştirmek için bu listede yer değiştirmeniz yeterli; listede olmayan yer bölümün sonuna,
+// yürüme süresine göre eklenir. Kaynaklar (araştırma 2026-11-16):
+//   Ayasofya 6,25 milyon (2024, AA) · Topkapı 4,68 milyon, Dolmabahçe 1,38 milyon (2024, Milli Saraylar)
+//   Kapalıçarşı ~5 milyon turist yılın ilk yarısında (2025, çarşı yönetimi; kapı sayımı, tekrar girişler dahil)
+//   Yerebatan ~2-3 milyon (İBB açıklaması, resmî yıllık sayı yok) · Galata Kulesi 677 bin (2024), ~951 bin (2025)
+//   Arkeoloji Müzeleri 508 bin (2024, Kültür ve Turizm Bakanlığı) · Kız Kulesi 246 bin (2025)
+//   İstanbul Havalimanı ~80 milyon, Sabiha Gökçen ~41 milyon yolcu (2024)
+// Sayısı olmayanlar (camiler, meydanlar, parklar, iskeleler, AVM'ler) tahminle yerleştirildi.
+window.POPULARITY = [
+  // Yürüyerek
+  "ayasofya", "kapalicarsi", "topkapi", "sultanahmet", "yerebatan", "misircarsisi",
+  "hipodrom", "gulhane", "suleymaniye", "arkeoloji", "kucukayasofya", "cagaloglu",
+  // Tramvay, vapur ya da taksiyle
+  "taksim", "dolmabahce", "galata", "balat", "kariye", "kizkulesi",
+  // İskeleler
+  "eminonu", "galatakoprusu", "kadikoy", "kabatas",
+  // Alışveriş merkezleri
+  "galataport", "istinyepark", "zorlu", "kanyon",
+  // Havalimanları
+  "ist", "saw",
+];
+
 window.HOTEL = {
   name: "Boss Hotel Sultanahmet",
   address: "Türkocağı Cad. No:15, Cağaloğlu, Fatih / İstanbul",

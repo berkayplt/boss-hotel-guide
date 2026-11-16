@@ -3,7 +3,7 @@ window.GUIDE_LANG({
   ui: {
     docTitle: "Guía de Estambul | Boss Hotel Sultanahmet",
     title: "Estambul empieza en nuestra puerta",
-    intro: "Ordenados del más cercano al más lejano. Toca un lugar para leer su historia y obtener indicaciones.",
+    intro: "Ordenados de los más visitados a los menos. Toca un lugar para leer su historia y obtener indicaciones.",
     langLabel: "Idioma",
     routeLabel: "Lugares para visitar",
     originSub: "Estás aquí",

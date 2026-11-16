@@ -16,7 +16,7 @@
     tr: {
       docTitle: "İstanbul Rehberi | Boss Hotel Sultanahmet",
       title: "Kapıdan çıkınca İstanbul",
-      intro: "Otelimize en yakın duraktan başlayarak sıraladık. Bir yere dokunun, hikâyesini okuyun, yol tarifini alın.",
+      intro: "En çok ziyaret edilen yerlerden başlayarak sıraladık. Bir yere dokunun, hikâyesini okuyun, yol tarifini alın.",
       langLabel: "Dil",
       routeLabel: "Gezilecek yerler",
       originSub: "Buradasınız",
@@ -124,7 +124,7 @@
     en: {
       docTitle: "Istanbul Guide | Boss Hotel Sultanahmet",
       title: "Istanbul starts at our door",
-      intro: "Listed from the closest stop outward. Tap a place to read its story and get directions.",
+      intro: "Listed with the most visited places first. Tap a place to read its story and get directions.",
       langLabel: "Language",
       routeLabel: "Places to visit",
       originSub: "You are here",
@@ -321,7 +321,7 @@
     if (loading[code]) return loading[code].push(done);
     loading[code] = [done];
     var s = document.createElement("script");
-    s.src = "i18n/" + code + ".js?v=20261116-tab";
+    s.src = "i18n/" + code + ".js?v=20261116-rank";
     s.onload = s.onerror = function () {
       var ok = !!STR[code];
       loading[code].forEach(function (fn) { fn(ok); });
@@ -375,13 +375,20 @@
     if (isWalk(p)) p.minutes = walkMinutes(p);
   });
 
-  // Listedeki bölümler, gösterim sırasıyla. Her bölüm kendi içinde süreye göre sıralanır;
-  // sortLast işaretli yerler bölümün sonuna alınır.
+  // Popülerlik sırası (data.js → POPULARITY); listede olmayan yer bölümün sonuna gider.
+  var POPULARITY = window.POPULARITY || [];
+  function rank(p) {
+    var i = POPULARITY.indexOf(p.id);
+    return i < 0 ? POPULARITY.length : i;
+  }
+
+  // Listedeki bölümler, gösterim sırasıyla. Her bölüm kendi içinde en çok ziyaret edilen yerden başlar;
+  // popülerlik listesinde olmayanlar sona, yürüme/yolculuk süresine göre eklenir.
   var SECTIONS = ["walk", "ride", "ferry", "shop", "airport"].map(function (kind) {
     return {
       kind: kind,
       places: PLACES.filter(function (p) { return p.group === kind; })
-        .sort(function (a, b) { return (!!a.sortLast - !!b.sortLast) || (travelMin(a) - travelMin(b)); }),
+        .sort(function (a, b) { return (rank(a) - rank(b)) || (!!a.sortLast - !!b.sortLast) || (travelMin(a) - travelMin(b)); }),
     };
   }).filter(function (sec) { return sec.places.length; });
 
